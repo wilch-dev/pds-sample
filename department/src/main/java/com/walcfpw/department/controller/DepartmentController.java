@@ -1,5 +1,6 @@
 package com.walcfpw.department.controller;
 
+import com.walcfpw.department.model.Department;
 import com.walcfpw.department.service.DepartmentService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,5 +18,10 @@ public class DepartmentController {
     @GetMapping("/hello")
     public Mono<String> hello() {
         return departmentService.hello();
+    }
+
+    @GetMapping("/dummyDept")
+    public Mono<Department> dummyDept() {
+        return departmentService.dummyDepartment();
     }
 }

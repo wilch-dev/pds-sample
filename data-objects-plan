@@ -1,0 +1,40 @@
+Random processing
+{
+- uuid
+- name
+- country
+- number1
+- number2
+- operation (multiplication, addition, etc, null)
+- preferred pet (dog, cat, pig, duck, alligator)
+- favorite fruit
+}
+
+Personel - Department - Spending
+
+Personel 
+{
+- uuid
+- id
+- name
+- birthdate
+- nationality
+- department.id
+}
+
+Department
+{
+- uuid
+- id
+- name
+- assigned-location
+}
+
+Spending
+{
+- uuid
+- id
+- name
+- price
+- personel.id
+}
