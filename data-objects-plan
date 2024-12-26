@@ -24,7 +24,6 @@ Personel
 
 Department
 {
-- uuid
 - id
 - name
 - assigned-location

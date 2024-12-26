@@ -1,7 +1,7 @@
 services:
   postgres-department:
     container_name: postgres_department_container
-    image: postgres:17.2-bookworm
+    image: postgres:17.2-alpine
     networks:
       - postgres-network
     ports:
@@ -15,7 +15,7 @@ services:
 
   pgadmin:
     container_name: pgadmin_container
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:8.14.0
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_MAIL}
       PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PW}

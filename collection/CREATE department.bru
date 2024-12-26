@@ -1,0 +1,18 @@
+meta {
+  name: CREATE department
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://{{lh8081}}/department/create
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name":"IT",
+    "assignedLocation":"16F"
+  }
+}

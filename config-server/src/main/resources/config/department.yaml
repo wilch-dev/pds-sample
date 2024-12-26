@@ -10,3 +10,21 @@ management:
   tracing:
     sampling:
       probability: 1.0
+
+spring:
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://172.30.0.3:5432/department_db
+    user: pguser
+    password: pgpass
+  r2dbc:
+    url: r2dbc:postgresql://172.30.0.3:5432/department_db
+    username: pguser
+    password: pgpass
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        data:
+#          r2dbc: DEBUG
