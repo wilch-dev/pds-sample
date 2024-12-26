@@ -12,15 +12,15 @@ management:
       probability: 1.0
 
 spring:
-  flyway:
-    enabled: true
-    url: jdbc:postgresql://172.30.0.3:5432/department_db
-    user: pguser
-    password: pgpass
+  data:
+    r2dbc:
+      repositories:
+        enabled: true
   r2dbc:
-    url: r2dbc:postgresql://172.30.0.3:5432/department_db
+    url: r2dbc:postgresql://172.30.0.3:5432
     username: pguser
     password: pgpass
+    name: department_db
 
 #logging:
 #  level:

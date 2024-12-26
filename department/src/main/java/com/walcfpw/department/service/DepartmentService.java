@@ -12,6 +12,6 @@ public interface DepartmentService {
     Mono<DepartmentDTO> getDepartmentById(Long id);
     Mono<DepartmentDTO> getDepartmentByName(String name);
 
-    Mono<DepartmentDTO> updateDepartment();
-    Mono<DepartmentDTO> deleteDepartment();
+    Mono<DepartmentDTO> updateDepartment(Long deptId, DepartmentDTO departmentDTO);
+    Mono<Void> deleteDepartmentById(Long deptId);
 }

@@ -30,11 +30,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Mono<DepartmentDTO> createDepartment(DepartmentDTO departmentDTO) {
         return departmentRepository.save(DepartmentEntity.builder()
-                .name(departmentDTO.getName())
-                .assignedLocation(departmentDTO.getAssignedLocation())
-                .build())
-                .map(departmentEntity ->
-                new DepartmentDTO(departmentEntity.getId(),
+                        .name(departmentDTO.getName())
+                        .assignedLocation(departmentDTO.getAssignedLocation())
+                        .build()).map(departmentEntity -> new DepartmentDTO(departmentEntity.getId(),
                         departmentEntity.getName(),
                         departmentEntity.getAssignedLocation()));
     }
@@ -58,12 +56,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
     @Override
-    public Mono<DepartmentDTO> updateDepartment() {
-        return null;
+    public Mono<DepartmentDTO> updateDepartment(Long deptId, DepartmentDTO departmentDTO) {
+        return departmentRepository.save(DepartmentEntity.builder()
+                        .id(deptId)
+                .name(departmentDTO.getName())
+                .assignedLocation(departmentDTO.getAssignedLocation())
+                .build()).map(departmentEntity -> new DepartmentDTO(departmentEntity.getId(),
+                departmentEntity.getName(),
+                departmentEntity.getAssignedLocation()));
     }
 
     @Override
-    public Mono<DepartmentDTO> deleteDepartment() {
-        return null;
+    public Mono<Void> deleteDepartmentById(Long deptId) {
+        return departmentRepository.deleteById(deptId);
     }
 }

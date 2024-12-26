@@ -29,23 +29,23 @@ public class DepartmentController {
         return departmentService.createDepartment(departmentDTO);
     }
 
-    @GetMapping("/{deptId}")
+    @GetMapping("/id/{deptId}")
     Mono<DepartmentDTO> getDepartmentById(@PathVariable("deptId") Long deptId) {
         return departmentService.getDepartmentById(deptId);
     }
 
-    @GetMapping("/{name}")
-    Mono<DepartmentDTO> getDepartmentByName(@PathVariable("deptId") String name) {
+    @GetMapping("/name/{name}")
+    Mono<DepartmentDTO> getDepartmentByName(@PathVariable("name") String name) {
         return departmentService.getDepartmentByName(name);
     }
 
     @PutMapping("/{deptId}")
     Mono<DepartmentDTO> updateDepartment(@PathVariable("deptId") Long deptId, @RequestBody DepartmentDTO departmentDTO) {
-        return departmentService.dummyDepartment();
+        return departmentService.updateDepartment(deptId, departmentDTO);
     }
 
     @DeleteMapping("/{deptId}")
-    Mono<Boolean> deleteDepartment(@PathVariable("deptId") Long deptId) {
-        return Mono.just(false);
+    Mono<Void> deleteDepartment(@PathVariable("deptId") Long deptId) {
+        return departmentService.deleteDepartmentById(deptId);
     }
 }
