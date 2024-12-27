@@ -4,6 +4,7 @@ import com.walcfpw.department.dto.DepartmentDTO;
 import com.walcfpw.department.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 // @RequiredArgsConstructor makes the constructor for you and autowires it
@@ -19,11 +20,6 @@ public class DepartmentController {
         return departmentService.hello();
     }
 
-    @GetMapping("/dummyDept")
-    Mono<DepartmentDTO> dummyDept() {
-        return departmentService.dummyDepartment();
-    }
-
     @PostMapping("/create")
     Mono<DepartmentDTO> createDepartment(@RequestBody DepartmentDTO departmentDTO) {
         return departmentService.createDepartment(departmentDTO);
@@ -37,6 +33,11 @@ public class DepartmentController {
     @GetMapping("/name/{name}")
     Mono<DepartmentDTO> getDepartmentByName(@PathVariable("name") String name) {
         return departmentService.getDepartmentByName(name);
+    }
+
+    @GetMapping("/all")
+    Flux<DepartmentDTO> getAllDepartments() {
+        return departmentService.getAllDepartments();
     }
 
     @PutMapping("/{deptId}")

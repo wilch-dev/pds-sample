@@ -1,6 +1,6 @@
 services:
-  postgres-department:
-    container_name: postgres_department_container
+  postgres-department-dev:
+    container_name: postgres_department_dev_container
     image: postgres:17.2-alpine
     networks:
       - postgres-network
@@ -8,10 +8,15 @@ services:
       - "5432:5432"
     volumes:
       - department_volume:/var/lib/postgresql/data
+#      - ./psql/department-init.sql:/docker-entrypoint-initdb.d/init.sql
+#    didn't work out
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PW}
       - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_DB=${DEPARTMENT_DB}
+      - POSTGRES_DB=db_department_dev
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+#    for mac and windows maybe but use 172.17.0.1 / 172.18.0.1 / 172.19.0.1 to access if linux maybe
 
   pgadmin:
     container_name: pgadmin_container
@@ -27,11 +32,10 @@ services:
       - pgadmin_volume:/var/lib/pgadmin
 
   zipkin:
-    container_name: pgadmin_container
+    container_name: zipkin_container
     image: openzipkin/zipkin:latest
     ports:
       - "9411:9411"
-
 
 networks:
   postgres-network:
@@ -42,3 +46,6 @@ volumes:
     external: true
   pgadmin_volume:
     external: true
+
+
+#  172.17.0.1 / 172.18.0.1 is what you use for the database. this is bridge? host.docker.internal doesn't seem to work in linux?

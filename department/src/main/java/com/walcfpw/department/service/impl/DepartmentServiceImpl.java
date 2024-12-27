@@ -7,6 +7,7 @@ import com.walcfpw.department.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
@@ -20,11 +21,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Mono<String> hello() {
         log.info("Logging - hello... It's working.");
         return Mono.just("Hello Reactive");
-    }
-
-    @Override
-    public Mono<DepartmentDTO> dummyDepartment() {
-        return Mono.just(new DepartmentDTO(1L, "name", "somewhere"));
     }
 
     @Override
@@ -53,6 +49,13 @@ public class DepartmentServiceImpl implements DepartmentService {
                         departmentEntity.getAssignedLocation()));
     }
 
+    @Override
+    public Flux<DepartmentDTO> getAllDepartments() {
+        return departmentRepository.findAll().map(departmentEntity ->
+                new DepartmentDTO(departmentEntity.getId(),
+                        departmentEntity.getName(),
+                        departmentEntity.getAssignedLocation()));
+    }
 
 
     @Override

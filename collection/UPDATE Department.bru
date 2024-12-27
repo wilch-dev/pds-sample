@@ -1,0 +1,18 @@
+meta {
+  name: UPDATE Department
+  type: http
+  seq: 7
+}
+
+put {
+  url: http://{{lh8081}}/department/6
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name":"random-dept-1-edited",
+    "assignedLocation":"2F"
+  }
+}
