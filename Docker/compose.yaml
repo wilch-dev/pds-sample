@@ -7,7 +7,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - department_volume:/var/lib/postgresql/data
+      - postgres_department_volume:/var/lib/postgresql/data
 #      - ./psql/department-init.sql:/docker-entrypoint-initdb.d/init.sql
 #    didn't work out
     environment:
@@ -17,6 +17,21 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 #    for mac and windows maybe but use 172.17.0.1 / 172.18.0.1 / 172.19.0.1 to access if linux maybe
+
+  redis:
+    image: redis:7.4.1-alpine
+    container_name: redis_department_container
+    volumes:
+      - redis_department_data_volume:/data
+    ports:
+      - "6379:6379"
+  redis_insight:
+    image: redis/redisinsight
+    container_name: redis_insight_container
+    ports:
+      - "5540:5540"
+    volumes:
+      - redis_insight_data_volume:/db
 
   pgadmin:
     container_name: pgadmin_container
@@ -42,9 +57,13 @@ networks:
     driver: bridge
 
 volumes:
-  department_volume:
+  postgres_department_volume:
+    external: true
+  redis_department_data_volume:
     external: true
   pgadmin_volume:
+    external: true
+  redis_insight_data_volume:
     external: true
 
 
