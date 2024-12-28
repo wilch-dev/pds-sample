@@ -10,13 +10,14 @@ Random processing
 - favorite fruit
 }
 
-Personel - Department - Spending
+Personnel - Department - Spending
 
-Personel 
+Personnel 
 {
 - uuid
 - id
-- name
+- first name
+- last name
 - birthdate
 - nationality
 - department.id
