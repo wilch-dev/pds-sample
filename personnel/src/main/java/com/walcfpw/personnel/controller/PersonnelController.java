@@ -10,24 +10,19 @@ import reactor.core.publisher.Mono;
 // @RequiredArgsConstructor makes the constructor for you and autowires it
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/personnel")
 public class PersonnelController {
 
     private final PersonnelService personnelService;
 
-    @GetMapping("/hello")
-    Mono<String> hello() {
-        return personnelService.hello();
+    @PostMapping("/add")
+    Mono<PersonnelDTO> addPersonnel(@RequestBody PersonnelDTO personnelDTO) {
+        return personnelService.addPersonnel(personnelDTO);
     }
 
-    @PostMapping("/create")
-    Mono<PersonnelDTO> createDepartment(@RequestBody PersonnelDTO personnelDTO) {
-        return personnelService.createDepartment(personnelDTO);
-    }
-
-    @GetMapping("/id/{deptId}")
-    Mono<PersonnelDTO> getDepartmentById(@PathVariable("deptId") Long deptId) {
-        return personnelService.getDepartmentById(deptId);
+    @GetMapping("/id/{personnelId}")
+    Mono<PersonnelDTO> getPersonnelById(@PathVariable("personnelId") Long deptId) {
+        return personnelService.getPersonnelById(deptId);
     }
 
     @GetMapping("/name/{name}")
@@ -37,16 +32,16 @@ public class PersonnelController {
 
     @GetMapping("/all")
     Flux<PersonnelDTO> getAllDepartments() {
-        return personnelService.getAllDepartments();
+        return personnelService.getAllPersonnel();
     }
 
     @PutMapping("/{deptId}")
     Mono<PersonnelDTO> updateDepartment(@PathVariable("deptId") Long deptId, @RequestBody PersonnelDTO personnelDTO) {
-        return personnelService.updateDepartment(deptId, personnelDTO);
+        return personnelService.updatePersonnel(deptId, personnelDTO);
     }
 
     @DeleteMapping("/{deptId}")
     Mono<Void> deleteDepartment(@PathVariable("deptId") Long deptId) {
-        return personnelService.deleteDepartmentById(deptId);
+        return personnelService.deletePersonnelById(deptId);
     }
 }

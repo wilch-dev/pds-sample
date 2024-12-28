@@ -1,6 +1,7 @@
 package com.walcfpw.department.service.impl;
 
 import com.walcfpw.department.dto.DepartmentDTO;
+import com.walcfpw.department.dto.mapper.DepartmentMapper;
 import com.walcfpw.department.repository.DepartmentRepository;
 import com.walcfpw.department.repository.entity.DepartmentEntity;
 import com.walcfpw.department.service.DepartmentService;
@@ -31,26 +32,21 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentRepository.save(DepartmentEntity.builder()
                         .name(departmentDTO.getName())
                         .assignedLocation(departmentDTO.getAssignedLocation())
-                        .build()).flatMap(departmentEntity -> Mono.just(new DepartmentDTO(departmentEntity.getId(),
-                departmentEntity.getName(),
-                departmentEntity.getAssignedLocation())));
+                        .build()).flatMap(departmentEntity ->
+                        Mono.just(DepartmentMapper.INSTANCE.toDto(departmentEntity)));
 //        I think map would do here since it's just one operation.
     }
 
     @Override
     public Mono<DepartmentDTO> getDepartmentById(Long id) {
         return departmentRepository.findById(id).map(departmentEntity ->
-                        new DepartmentDTO(departmentEntity.getId(),
-                                departmentEntity.getName(),
-                                departmentEntity.getAssignedLocation()));
+                DepartmentMapper.INSTANCE.toDto(departmentEntity));
     }
 
     @Override
     public Mono<DepartmentDTO> getDepartmentByName(String name) {
         return departmentRepository.findByName(name).map(departmentEntity ->
-                new DepartmentDTO(departmentEntity.getId(),
-                        departmentEntity.getName(),
-                        departmentEntity.getAssignedLocation()));
+                DepartmentMapper.INSTANCE.toDto(departmentEntity));
     }
 
 //    @Override

@@ -8,15 +8,21 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-@Table("department")
-public class DepartmentEntity implements Serializable {
+@Table("personnel")
+public class PersonnelEntity implements Serializable {
+    private UUID uuid;
     @Id
     private Long id;
-    private String name;
-    private String assignedLocation;
+    private String firstName;
+    private String lastName;
+    private Date birthdate;
+    private String nationality;
+    private Long departmentId;
 }

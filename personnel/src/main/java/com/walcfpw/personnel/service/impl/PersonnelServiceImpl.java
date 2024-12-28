@@ -3,7 +3,10 @@ package com.walcfpw.personnel.service.impl;
 import com.walcfpw.department.dto.DepartmentDTO;
 import com.walcfpw.department.repository.DepartmentRepository;
 import com.walcfpw.department.repository.entity.DepartmentEntity;
-import com.walcfpw.department.service.DepartmentService;
+import com.walcfpw.personnel.dto.PersonnelDTO;
+import com.walcfpw.personnel.repository.PersonnelRepository;
+import com.walcfpw.personnel.repository.entity.PersonnelEntity;
+import com.walcfpw.personnel.service.PersonnelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
@@ -11,16 +14,15 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class PersonnelServiceImpl implements DepartmentService {
+public class PersonnelServiceImpl implements PersonnelService {
 
-    private final DepartmentRepository departmentRepository;
-    private final ReactiveRedisTemplate<String, DepartmentEntity> reactiveRedisTemplate;
-//    private final ReactiveHashOperations<String, Integer, ProductDto> hashOperations;
+    private final PersonnelRepository personnelRepository;
 
-    @Override
     public Mono<String> hello() {
         log.info("Logging - hello... It's working.");
         return Mono.just("Hello Reactive");
@@ -28,7 +30,7 @@ public class PersonnelServiceImpl implements DepartmentService {
 
     @Override
     public Mono<DepartmentDTO> createDepartment(DepartmentDTO departmentDTO) {
-        return departmentRepository.save(DepartmentEntity.builder()
+        return personnelRepository.save(DepartmentEntity.builder()
                         .name(departmentDTO.getName())
                         .assignedLocation(departmentDTO.getAssignedLocation())
                         .build()).flatMap(departmentEntity -> Mono.just(new DepartmentDTO(departmentEntity.getId(),
@@ -39,7 +41,7 @@ public class PersonnelServiceImpl implements DepartmentService {
 
     @Override
     public Mono<DepartmentDTO> getDepartmentById(Long id) {
-        return departmentRepository.findById(id).map(departmentEntity ->
+        return personnelRepository.findById(id).map(departmentEntity ->
                         new DepartmentDTO(departmentEntity.getId(),
                                 departmentEntity.getName(),
                                 departmentEntity.getAssignedLocation()));
@@ -47,7 +49,7 @@ public class PersonnelServiceImpl implements DepartmentService {
 
     @Override
     public Mono<DepartmentDTO> getDepartmentByName(String name) {
-        return departmentRepository.findByName(name).map(departmentEntity ->
+        return personnelRepository.findByName(name).map(departmentEntity ->
                 new DepartmentDTO(departmentEntity.getId(),
                         departmentEntity.getName(),
                         departmentEntity.getAssignedLocation()));
@@ -67,7 +69,7 @@ public class PersonnelServiceImpl implements DepartmentService {
                 // Fetching cached movies.
                 .flatMap(key -> reactiveRedisTemplate.opsForValue().get(key))
                 // If cache is empty, fetch the database for movies
-                .switchIfEmpty(departmentRepository.findAll()
+                .switchIfEmpty(personnelRepository.findAll()
                         // Persisting the fetched movies in the cache.
                         .flatMap(departmentEntity ->
                                 reactiveRedisTemplate
@@ -88,7 +90,7 @@ public class PersonnelServiceImpl implements DepartmentService {
 
     @Override
     public Mono<DepartmentDTO> updateDepartment(Long deptId, DepartmentDTO departmentDTO) {
-        return departmentRepository.save(DepartmentEntity.builder()
+        return personnelRepository.save(DepartmentEntity.builder()
                         .id(deptId)
                 .name(departmentDTO.getName())
                 .assignedLocation(departmentDTO.getAssignedLocation())
@@ -99,6 +101,49 @@ public class PersonnelServiceImpl implements DepartmentService {
 
     @Override
     public Mono<Void> deleteDepartmentById(Long deptId) {
-        return departmentRepository.deleteById(deptId);
+        return personnelRepository.deleteById(deptId);
+    }
+
+    @Override
+    public Mono<PersonnelDTO> addPersonnel(PersonnelDTO personnelDTO) {
+
+        ModelMapper modelMapper = new ModelMapper();
+        OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+
+        return personnelRepository.save(PersonnelEntity.builder()
+                        .uuid(UUID.randomUUID())
+                        .firstName(personnelDTO.getFirstName())
+                        .lastName(personnelDTO.getLastName())
+                        .birthdate(personnelDTO.getBirthdate())
+                        .nationality(personnelDTO.getNationality())
+                        .departmentId(personnelDTO.getDepartmentId())
+                        .build()).flatMap(personnelEntity -> Mono.just(new PersonnelDTO(personnelEntity.getUuid(),
+                        personnelEntity.getId(),
+                        personnelEntity.getFirstName(),
+                        personnelEntity.getLastName(),
+                        personnelEntity.getBirthdate(),
+                        personnelEntity.getNationality(),
+                        personnelEntity.getDepartmentId())));
+
+    }
+
+    @Override
+    public Mono<PersonnelDTO> getPersonnelById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Flux<PersonnelDTO> getAllPersonnel() {
+        return null;
+    }
+
+    @Override
+    public Mono<PersonnelDTO> updatePersonnel(Long personnelId, PersonnelDTO departmentDTO) {
+        return null;
+    }
+
+    @Override
+    public Mono<Void> deletePersonnelById(Long personnelId) {
+        return null;
     }
 }
