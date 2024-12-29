@@ -15,7 +15,7 @@
         <comment>department table</comment>
         <createTable tableName="department">
             <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false" uniqueConstraintName="pk_toggle"/>
+                <constraints primaryKey="true" nullable="false" uniqueConstraintName="pk_department"/>
             </column>
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="nn_u_name"/>

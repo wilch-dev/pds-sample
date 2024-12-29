@@ -25,23 +25,18 @@ public class PersonnelController {
         return personnelService.getPersonnelById(deptId);
     }
 
-    @GetMapping("/name/{name}")
-    Mono<PersonnelDTO> getDepartmentByName(@PathVariable("name") String name) {
-        return personnelService.getDepartmentByName(name);
-    }
-
     @GetMapping("/all")
-    Flux<PersonnelDTO> getAllDepartments() {
+    Flux<PersonnelDTO> getAllPersonnel() {
         return personnelService.getAllPersonnel();
     }
 
-    @PutMapping("/{deptId}")
-    Mono<PersonnelDTO> updateDepartment(@PathVariable("deptId") Long deptId, @RequestBody PersonnelDTO personnelDTO) {
-        return personnelService.updatePersonnel(deptId, personnelDTO);
+    @PutMapping("/{personnelId}")
+    Mono<PersonnelDTO> updatePersonnel(@PathVariable("personnelId") Long personnelId, @RequestBody PersonnelDTO personnelDTO) {
+        return personnelService.updatePersonnel(personnelId, personnelDTO);
     }
 
-    @DeleteMapping("/{deptId}")
-    Mono<Void> deleteDepartment(@PathVariable("deptId") Long deptId) {
-        return personnelService.deletePersonnelById(deptId);
+    @DeleteMapping("/{personnelId}")
+    Mono<Void> deletePersonnel(@PathVariable("personnelId") Long personnelId) {
+        return personnelService.deletePersonnelById(personnelId);
     }
 }

@@ -29,11 +29,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Mono<DepartmentDTO> createDepartment(DepartmentDTO departmentDTO) {
-        return departmentRepository.save(DepartmentEntity.builder()
-                        .name(departmentDTO.getName())
-                        .assignedLocation(departmentDTO.getAssignedLocation())
-                        .build()).flatMap(departmentEntity ->
-                        Mono.just(DepartmentMapper.INSTANCE.toDto(departmentEntity)));
+        return departmentRepository.save(DepartmentMapper.INSTANCE.toEntity(departmentDTO))
+                .flatMap(departmentEntity -> Mono.just(DepartmentMapper.INSTANCE.toDto(departmentEntity)));
 //        I think map would do here since it's just one operation.
     }
 

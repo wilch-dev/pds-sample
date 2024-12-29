@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <property name="uuid_type" value="uuid" dbms="postgresql"/>
+    <property name="uuid_function" value="gen_random_uuid()" dbms="postgresql"/>
+    <property name="now" value="now()" dbms="postgresql"/>
+
+    private UUID uuid;
+    @Id
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private Date birthdate;
+    private String nationality;
+    private Long departmentId;
+
+    <changeSet id="1" author="william.chan" labels="init,personnel">
+        <comment>personnel table</comment>
+        <createTable tableName="personnel">
+            <column name="uuid" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true" nullable="false" unique="true" uniqueConstraintName="uuid"/>
+            </column>
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" uniqueConstraintName="pk_personnel_id"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false" uniqueConstraintName="nn_first_name"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false" uniqueConstraintName="nn_last_name"/>
+            </column>
+            <column name="nationality" type="varchar(255)">
+                <constraints nullable="false" uniqueConstraintName="nn_nationality_location"/>
+            </column>
+            <column name="birthdate" type="date">
+                <constraints nullable="false" uniqueConstraintName="nn_birthdate_location"/>
+            </column>
+             uuid
+            <column name="department_id" type="int">
+                <constraints nullable="false" uniqueConstraintName="nn_department_id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="liquibase-docs">
+        <insert tableName="personnel">
+            <column name="first_name" value="John" />
+            <column name="last_name" value="Dayla" />
+            <column name="birthdate" value="1989-01-01" />
+            <column name="nationality" value="Vietnamese" />
+            <column name="department_id" value="1" />
+        </insert>
+    </changeSet>
+</databaseChangeLog>

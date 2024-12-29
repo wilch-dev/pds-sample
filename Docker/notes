@@ -2,10 +2,12 @@ docker inspect \
   -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 97
 
 docker volume create:
-docker volume create postgres_department_volume && docker volume create redis_department_data_volume && docker volume create pgadmin_volume && docker volume create redis_insight_data_volume
+docker volume create postgres_department_volume && docker volume create redis_department_data_volume && docker volume create pgadmin_volume && docker volume create redis_insight_data_volume && docker volume create postgres_personnel_volume
 
 quickly rebuild postgres docker:
 docker-compose down && docker volume rm postgres_department_volume && docker volume create postgres_department_volume && docker-compose up -d && docker ps -a
 
 Liquibase - department initialization:
 docker run -e TZ="Asia/Manila" --network="host" --rm -v $(pwd)/liquibase/changelog:/liquibase/changelog liquibase update --defaults-file=/liquibase/changelog/liquibase-department-dev.properties --changelog-file=liquibase/changelog/changelog-department.xml
+Liquibase - personnel initialization:
+docker run -e TZ="Asia/Manila" --network="host" --rm -v $(pwd)/liquibase/changelog:/liquibase/changelog liquibase update --defaults-file=/liquibase/changelog/liquibase-personnel-dev.properties --changelog-file=liquibase/changelog/changelog-personnel.xml
