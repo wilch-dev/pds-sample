@@ -1,5 +1,6 @@
 package com.walcfpw.personnel.controller;
 
+import com.walcfpw.personnel.dto.PersonnelAndDepartmentDTO;
 import com.walcfpw.personnel.dto.PersonnelDTO;
 import com.walcfpw.personnel.service.PersonnelService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,10 @@ public class PersonnelController {
     @DeleteMapping("/{personnelId}")
     Mono<Void> deletePersonnel(@PathVariable("personnelId") Long personnelId) {
         return personnelService.deletePersonnelById(personnelId);
+    }
+
+    @GetMapping("pand/{personnelId}")
+    Mono<PersonnelAndDepartmentDTO> getPersonnelAndDepartment(@PathVariable("personnelId") Long personnelId) {
+        return personnelService.getPersonnelByIdWithDepartment(personnelId);
     }
 }
