@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,7 +16,7 @@ public class PersonnelDTO {
     private Long id;
     private String firstName;
     private String lastName;
-    private Date birthdate;
+    private LocalDate birthdate;
     private String nationality;
     private Long departmentId;
 }

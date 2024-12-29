@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class PersonnelEntity implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
-    private Date birthdate;
+    private LocalDate birthdate;
     private String nationality;
     private Long departmentId;
 }

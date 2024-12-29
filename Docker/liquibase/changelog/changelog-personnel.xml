@@ -11,15 +11,6 @@
     <property name="uuid_function" value="gen_random_uuid()" dbms="postgresql"/>
     <property name="now" value="now()" dbms="postgresql"/>
 
-    private UUID uuid;
-    @Id
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private Date birthdate;
-    private String nationality;
-    private Long departmentId;
-
     <changeSet id="1" author="william.chan" labels="init,personnel">
         <comment>personnel table</comment>
         <createTable tableName="personnel">
@@ -41,14 +32,13 @@
             <column name="birthdate" type="date">
                 <constraints nullable="false" uniqueConstraintName="nn_birthdate_location"/>
             </column>
-             uuid
             <column name="department_id" type="int">
                 <constraints nullable="false" uniqueConstraintName="nn_department_id"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="2" author="liquibase-docs">
+    <changeSet id="2" author="william.chan">
         <insert tableName="personnel">
             <column name="first_name" value="John" />
             <column name="last_name" value="Dayla" />

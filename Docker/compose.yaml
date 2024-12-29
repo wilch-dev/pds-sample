@@ -17,6 +17,21 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 #    for mac and windows maybe but use 172.17.0.1 / 172.18.0.1 / 172.19.0.1 to access if linux maybe
+  postgres-personnel-dev:
+    container_name: postgres_personnel_dev_container
+    image: postgres:17.2-alpine
+    networks:
+      - postgres-network
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_personnel_volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PW}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=db_personnel_dev
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   redis:
     image: redis:7.4.1-alpine
@@ -58,6 +73,8 @@ networks:
 
 volumes:
   postgres_department_volume:
+    external: true
+  postgres_personnel_volume:
     external: true
   redis_department_data_volume:
     external: true

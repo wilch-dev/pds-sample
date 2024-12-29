@@ -41,7 +41,8 @@ class PersonnelServiceImplTest {
                 .id(1L)
                 .firstName("John")
                 .lastName("Mangione")
-                .birthdate(Date.from(LocalDate.of( 2000 , 2 , 11 ).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+//                .birthdate(Date.from(LocalDate.of( 2000 , 2 , 11 ).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .birthdate(LocalDate.of( 2000 , 2 , 11 ))
                 .nationality("Italian")
                 .build();
 
@@ -50,7 +51,8 @@ class PersonnelServiceImplTest {
                 .id(2L)
                 .firstName("Lora")
                 .lastName("Sanchez")
-                .birthdate(Date.from(LocalDate.of( 1998 , 4 , 16 ).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+//                .birthdate(Date.from(LocalDate.of( 1998 , 4 , 16 ).atStartOfDay(ZoneId.systemDefault()).toInstant()))
+                .birthdate(LocalDate.of( 1998 , 4 , 16 ))
                 .nationality("American")
                 .build();
     }
