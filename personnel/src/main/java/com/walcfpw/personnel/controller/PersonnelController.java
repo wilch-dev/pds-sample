@@ -16,6 +16,11 @@ public class PersonnelController {
 
     private final PersonnelService personnelService;
 
+    @GetMapping("/hello")
+    Mono<String> hello() {
+        return personnelService.hello();
+    }
+
     @PostMapping("/add")
     Mono<PersonnelDTO> addPersonnel(@RequestBody PersonnelDTO personnelDTO) {
         return personnelService.addPersonnel(personnelDTO);

@@ -1,0 +1,26 @@
+server:
+  port: 8060
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: personnel
+          uri: http://localhost:8082
+          predicates:
+            - Path=/personnel/**
+        - id: department
+          uri: http://localhost:8081
+          predicates:
+            - Path=/department/**
+

@@ -26,9 +26,16 @@ public class DepartmentClient {
 
     public Mono<DepartmentDTO> getDepartmentById(Long deptId) {
         return webClient.get()
-                .uri("/id/{deptId}", deptId)
+                .uri("/department/id/{deptId}", deptId)
                 .retrieve()
                 .bodyToMono(DepartmentDTO.class);
+    }
+
+    public Mono<String> getHello() {
+        return webClient.get()
+                .uri("/department/hello")
+                .retrieve()
+                .bodyToMono(String.class);
     }
 
 }

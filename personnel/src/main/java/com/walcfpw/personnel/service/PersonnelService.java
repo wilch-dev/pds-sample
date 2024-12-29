@@ -8,6 +8,8 @@ import reactor.core.publisher.Mono;
 
 public interface PersonnelService {
 
+    Mono<String> hello();
+
     Mono<PersonnelDTO> addPersonnel(PersonnelDTO personnelDTO);
 
     Mono<PersonnelDTO> getPersonnelById(Long id);

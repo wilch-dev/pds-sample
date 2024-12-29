@@ -4,7 +4,6 @@ import com.walcfpw.personnel.client.DepartmentClient;
 import com.walcfpw.personnel.dto.DepartmentDTO;
 import com.walcfpw.personnel.dto.PersonnelAndDepartmentDTO;
 import com.walcfpw.personnel.dto.PersonnelDTO;
-import com.walcfpw.personnel.dto.mapper.PersonnelAndDepartmentMapper;
 import com.walcfpw.personnel.dto.mapper.PersonnelMapper;
 import com.walcfpw.personnel.repository.PersonnelRepository;
 import com.walcfpw.personnel.service.PersonnelService;
@@ -14,8 +13,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.concurrent.ExecutionException;
-
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -24,9 +21,11 @@ public class PersonnelServiceImpl implements PersonnelService {
     private final PersonnelRepository personnelRepository;
     private final DepartmentClient departmentClient;
 
+    @Override
     public Mono<String> hello() {
-        log.info("Logging - hello... It's working.");
-        return Mono.just("Hello Reactive");
+//        log.info("Logging - hello... It's working.");
+//        return Mono.just("Hello asdfasdf");
+        return departmentClient.getHello();
     }
 
     @Override
@@ -60,26 +59,28 @@ public class PersonnelServiceImpl implements PersonnelService {
     @Override
     public Mono<PersonnelAndDepartmentDTO> getPersonnelByIdWithDepartment(Long personnelId) {
 
-        Mono<PersonnelDTO> personnelDTO = getPersonnelById(personnelId);
-        Mono<DepartmentDTO> departmentDTO = getDepartmentOfPersonnel(personnelDTO);
+//        Mono.zip(getPersonnelById(personnelId))
+//
+//        personnelRepository.findById(personnelId)
+//                .map(personnelEntity -> departmentClient.getDepartmentById(personnelEntity.getDepartmentId()))
+//                .zi
+//
+//
+//        PersonnelEntity personnelEntity = personnelRepository.findById(personnelId).block();
+//        PersonnelDTO personnelDTO = PersonnelMapper.INSTANCE.toDto(personnelEntity);
+//        DepartmentDTO departmentDTO = departmentClient.getDepartmentById(personnelEntity.getDepartmentId()).block();
 
-        try {
-            return Mono.just(PersonnelAndDepartmentMapper.INSTANCE.toDto(personnelDTO.toFuture().(), departmentDTO.toFuture().get()));
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        return null;
+//        https://stackoverflow.com/a/58445824
     }
 
     @Override
     public Mono<DepartmentDTO> getDepartmentOfPersonnel(Mono<PersonnelDTO> personnelDTOMono) {
-        try {
-            return departmentClient.getDepartmentById(personnelDTOMono.toFuture().get().getDepartmentId());
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        return null;
+    }
+
+
+    public Mono<DepartmentDTO> getDepartmentOfPersonnel(Long departmentId) {
+        return departmentClient.getDepartmentById(departmentId);
     }
 }

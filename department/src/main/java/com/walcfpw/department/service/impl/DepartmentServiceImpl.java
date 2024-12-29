@@ -24,7 +24,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Mono<String> hello() {
         log.info("Logging - hello... It's working.");
-        return Mono.just("Hello Reactive");
+        return Mono.just("Hello Reactive -test2");
     }
 
     @Override
