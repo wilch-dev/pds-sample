@@ -1,5 +1,6 @@
 package com.walcfpw.personnel.service;
 
+import com.walcfpw.personnel.dto.DepartmentDTO;
 import com.walcfpw.personnel.dto.PersonnelAndDepartmentDTO;
 import com.walcfpw.personnel.dto.PersonnelDTO;
 import reactor.core.publisher.Flux;
@@ -16,5 +17,9 @@ public interface PersonnelService {
 
     Mono<Void> deletePersonnelById(Long personnelId);
 
-    PersonnelAndDepartmentDTO getPersonnelByIdWithDepartment(Long personnelId);
+    Mono<PersonnelAndDepartmentDTO> getPersonnelByIdWithDepartment(Long personnelId);
+
+//    Mono<DepartmentDTO> getDepartmentOfPersonnel(Long personnelId);
+
+    Mono<DepartmentDTO> getDepartmentOfPersonnel(Mono<PersonnelDTO> personnelDTOMono);
 }

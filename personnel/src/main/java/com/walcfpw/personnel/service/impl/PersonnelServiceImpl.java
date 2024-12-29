@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 @Service
@@ -58,17 +58,28 @@ public class PersonnelServiceImpl implements PersonnelService {
     }
 
     @Override
-    public PersonnelAndDepartmentDTO getPersonnelByIdWithDepartment(Long personnelId) {
-        AtomicReference<PersonnelDTO> personnelDTO = new AtomicReference<>();
-        AtomicReference<DepartmentDTO> departmentDTO = new AtomicReference<>();
-        personnelRepository.findById(personnelId)
-                .doOnSuccess(personnelEntity -> personnelDTO.set(PersonnelMapper.INSTANCE.toDto(personnelEntity)))
-                .doOnNext(personnelEntity -> {
-                    departmentClient.getDepartmentById(personnelEntity.getDepartmentId())
-                            .doOnSuccess(departmentDTO::set);
-                });
+    public Mono<PersonnelAndDepartmentDTO> getPersonnelByIdWithDepartment(Long personnelId) {
 
+        Mono<PersonnelDTO> personnelDTO = getPersonnelById(personnelId);
+        Mono<DepartmentDTO> departmentDTO = getDepartmentOfPersonnel(personnelDTO);
 
-        return Mono.just(PersonnelAndDepartmentMapper.INSTANCE.toDto(personnelDTO.get(), departmentDTO.get()));
+        try {
+            return Mono.just(PersonnelAndDepartmentMapper.INSTANCE.toDto(personnelDTO.toFuture().(), departmentDTO.toFuture().get()));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Mono<DepartmentDTO> getDepartmentOfPersonnel(Mono<PersonnelDTO> personnelDTOMono) {
+        try {
+            return departmentClient.getDepartmentById(personnelDTOMono.toFuture().get().getDepartmentId());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
