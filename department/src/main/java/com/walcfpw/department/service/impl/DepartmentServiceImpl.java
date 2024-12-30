@@ -46,37 +46,37 @@ public class DepartmentServiceImpl implements DepartmentService {
                 DepartmentMapper.INSTANCE.toDto(departmentEntity));
     }
 
-//    @Override
-//    public Flux<DepartmentDTO> getAllDepartments() {
-//        return departmentRepository.findAll().flatMap(departmentEntity ->
-//                Mono.just(new DepartmentDTO(departmentEntity.getId(),
-//                        departmentEntity.getName(),
-//                        departmentEntity.getAssignedLocation())));
-//    }
-
     @Override
     public Flux<DepartmentDTO> getAllDepartments() {
-        return reactiveRedisTemplate.keys("department:*")
-                // Fetching cached movies.
-                .flatMap(key -> reactiveRedisTemplate.opsForValue().get(key))
-                // If cache is empty, fetch the database for movies
-                .switchIfEmpty(departmentRepository.findAll()
-                        // Persisting the fetched movies in the cache.
-                        .flatMap(departmentEntity ->
-                                reactiveRedisTemplate
-                                        .opsForValue()
-                                        .set("department:" + departmentEntity.getId(), departmentEntity)
-                        )
-                        // Fetching the movies from the updated cache.
-                        .thenMany(reactiveRedisTemplate.keys("department:*")
-                                .flatMap(key -> reactiveRedisTemplate.opsForValue().get(key))
-                        )
-                        // convert to DTO
-                ).flatMap(departmentEntity ->Mono.just(
-                        new DepartmentDTO(departmentEntity.getId(),
-                                departmentEntity.getName(),
-                                departmentEntity.getAssignedLocation())));
+        return departmentRepository.findAll().flatMap(departmentEntity ->
+                Mono.just(new DepartmentDTO(departmentEntity.getId(),
+                        departmentEntity.getName(),
+                        departmentEntity.getAssignedLocation())));
     }
+
+//    @Override
+//    public Flux<DepartmentDTO> getAllDepartments() {
+//        return reactiveRedisTemplate.keys("department:*")
+//                // Fetching cached movies.
+//                .flatMap(key -> reactiveRedisTemplate.opsForValue().get(key))
+//                // If cache is empty, fetch the database for movies
+//                .switchIfEmpty(departmentRepository.findAll()
+//                        // Persisting the fetched movies in the cache.
+//                        .flatMap(departmentEntity ->
+//                                reactiveRedisTemplate
+//                                        .opsForValue()
+//                                        .set("department:" + departmentEntity.getId(), departmentEntity)
+//                        )
+//                        // Fetching the movies from the updated cache.
+//                        .thenMany(reactiveRedisTemplate.keys("department:*")
+//                                .flatMap(key -> reactiveRedisTemplate.opsForValue().get(key))
+//                        )
+//                        // convert to DTO
+//                ).flatMap(departmentEntity ->Mono.just(
+//                        new DepartmentDTO(departmentEntity.getId(),
+//                                departmentEntity.getName(),
+//                                departmentEntity.getAssignedLocation())));
+//    }
 
 
     @Override

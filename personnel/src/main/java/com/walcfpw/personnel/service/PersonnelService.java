@@ -10,6 +10,8 @@ public interface PersonnelService {
 
     Mono<String> hello();
 
+    Mono<DepartmentDTO> getDepartment();
+
     Mono<PersonnelDTO> addPersonnel(PersonnelDTO personnelDTO);
 
     Mono<PersonnelDTO> getPersonnelById(Long id);
@@ -21,7 +23,7 @@ public interface PersonnelService {
 
     Mono<PersonnelAndDepartmentDTO> getPersonnelByIdWithDepartment(Long personnelId);
 
-//    Mono<DepartmentDTO> getDepartmentOfPersonnel(Long personnelId);
+    Mono<DepartmentDTO> getDepartmentOfPersonnel(Long personnelId);
 
-    Mono<DepartmentDTO> getDepartmentOfPersonnel(Mono<PersonnelDTO> personnelDTOMono);
+//    Mono<DepartmentDTO> getDepartmentOfPersonnel(Mono<PersonnelDTO> personnelDTOMono);
 }

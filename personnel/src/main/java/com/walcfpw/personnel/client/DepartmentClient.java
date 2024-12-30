@@ -19,7 +19,7 @@ public class DepartmentClient {
     private final WebClient webClient;
 
     public DepartmentClient(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://localhost:8081").build();
+        this.webClient = builder.baseUrl("http://localhost:8060").build();
     }
 //    private String departmentUri = "http://department";
 

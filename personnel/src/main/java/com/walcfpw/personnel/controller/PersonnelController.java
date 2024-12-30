@@ -1,5 +1,6 @@
 package com.walcfpw.personnel.controller;
 
+import com.walcfpw.personnel.dto.DepartmentDTO;
 import com.walcfpw.personnel.dto.PersonnelAndDepartmentDTO;
 import com.walcfpw.personnel.dto.PersonnelDTO;
 import com.walcfpw.personnel.service.PersonnelService;
@@ -19,6 +20,11 @@ public class PersonnelController {
     @GetMapping("/hello")
     Mono<String> hello() {
         return personnelService.hello();
+    }
+
+    @GetMapping("/getdept")
+    Mono<DepartmentDTO> getdept(){
+        return personnelService.getDepartment();
     }
 
     @PostMapping("/add")
