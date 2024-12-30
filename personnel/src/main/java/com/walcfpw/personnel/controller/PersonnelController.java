@@ -52,7 +52,7 @@ public class PersonnelController {
         return personnelService.deletePersonnelById(personnelId);
     }
 
-    @GetMapping("pand/{personnelId}")
+    @GetMapping("/pand/{personnelId}")
     Mono<PersonnelAndDepartmentDTO> getPersonnelAndDepartment(@PathVariable("personnelId") Long personnelId) {
         return personnelService.getPersonnelByIdWithDepartment(personnelId);
     }

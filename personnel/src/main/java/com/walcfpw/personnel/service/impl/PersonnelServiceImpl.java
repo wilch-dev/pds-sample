@@ -64,36 +64,25 @@ public class PersonnelServiceImpl implements PersonnelService {
     @Override
     public Mono<PersonnelAndDepartmentDTO> getPersonnelByIdWithDepartment(Long personnelId) {
 
-        return null;
-//                getPersonnelById(personnelId).flatMap(personnelDTO -> {
-//            return Mono.just(PersonnelAndDepartmentDTO.builder().personnelDTO(personnelDTO).build());
-//        }).flatMap(personnelAndDepartmentDTO -> {
-//            getDepartmentOfPersonnel(personnelAndDepartmentDTO.getPersonnelDTO().getDepartmentId());
-//        });
+        return getPersonnelById(personnelId).flatMap(personnelDTO ->
+                        getDepartmentOfPersonnel(personnelDTO.getDepartmentId())
+                                .map(departmentDTO ->
+                                        new PersonnelAndDepartmentDTO(personnelDTO, departmentDTO)));
 
-//        PersonnelDTO personnelDTO;
-//        DepartmentDTO departmentDTO;
-//
-//        getPersonnelById(personnelId).subscribeOn();
-//
-//        return Mono.just(new PersonnelAndDepartmentDTO()).doOnSubscribe(subscription -> {
-//            PersonnelDTO personnelDTO = getPersonnelById(personnelId).block();
-//            DepartmentDTO departmentDTO = departmentClient.getDepartmentById(personnelDTO.getDepartmentId()).block();
-//            personnelAnd
-//        })
-//
-//        return
-//        PersonnelDTO personnelEntity = getPersonnelById(personnelId).toFuture().get()
-//
-//
-//        return PersonnelAndDepartmentMapper.INSTANCE.toDto(personnelEntity,departmentDTO);
-
-//        https://stackoverflow.com/a/58445824
+//        https://stackoverflow.com/questions/66832523/mixing-two-mono-and-return-first-one-with-second-in-firsts-body
     }
-//
+
+
 //    @Override
-//    public Mono<DepartmentDTO> getDepartmentOfPersonnel(Mono<PersonnelDTO> personnelDTOMono) {
-//        return null;
+//    public Mono<PersonnelAndDepartmentDTO> getPersonnelByIdWithDepartment(Long personnelId) {
+//
+//        Mono<PersonnelAndDepartmentDTO> personnelAndDepartmentDTOMono =
+//                Mono.zip(getPersonnelById(personnelId), getDepartmentOfPersonnel(1L));
+//
+//        return getPersonnelById(personnelId).flatMap(personnelDTO ->
+//                getDepartmentOfPersonnel(personnelDTO.getDepartmentId())
+//                        .map(departmentDTO ->
+//                                new PersonnelAndDepartmentDTO(personnelDTO, departmentDTO)));
 //    }
 
     @Override
